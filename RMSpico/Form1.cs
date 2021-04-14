@@ -92,7 +92,7 @@ namespace RMSpico
                 process.StartInfo = startInfo;
                 
                 process.Start();
-                progressBar1.Value = 50;
+                progressBar1.Value = 40;
 
                 startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
                 startInfo.FileName = "cmd.exe";
