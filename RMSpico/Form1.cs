@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Management;
 using System.Threading;
 using Microsoft.VisualBasic;
+using System.IO;
 
 namespace RMSpico
 {
@@ -132,6 +133,65 @@ namespace RMSpico
 
         }
 
+        public void activateOffice(String path)
+        {
+            if (path == "no matching path")
+            {
+                infoLabel.Text = "ERROR: No Matching Key for this version of Windows";
+            }
+            else
+            {
+                try
+                {
+                    progressBar1.Value = 0;
+                    System.Diagnostics.Process officeProcess = new System.Diagnostics.Process();
+                    System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+                    startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                    startInfo.FileName = "cmd.exe";
+                    startInfo.Arguments = "/C cd /d " + path;
+                    startInfo.Verb = "runas";
+                    officeProcess.StartInfo = startInfo;
+
+                    officeProcess.Start();
+                    progressBar1.Value = 40;
+
+
+                    startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                    startInfo.FileName = "cmd.exe";
+                    startInfo.Arguments = @"/C for /f %x in ('dir /b ..\root\Licenses16\ProPlus2019VL*.xrm-ms') do cscript ospp.vbs /inslic:'..\root\Licenses16\% x'";
+                    startInfo.Verb = "runas";
+                    officeProcess.StartInfo = startInfo;
+
+                    officeProcess.Start();
+                    progressBar1.Value = 70;
+
+
+
+                    startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                    startInfo.FileName = "cmd.exe";
+                    startInfo.Arguments = @"/C cscript ospp.vbs /setprt:1688
+                        cscript ospp.vbs /unpkey:6MWKP >nul
+                        cscript ospp.vbs /inpkey:NMMKJ-6RK4F-KMJVX-8D9MJ-6MWKP
+                        cscript ospp.vbs /sethst:kms8.msguides.com
+                        cscript ospp.vbs /act";
+                    startInfo.Verb = "runas";
+                    officeProcess.StartInfo = startInfo;
+
+                    officeProcess.Start();
+                    progressBar1.Value = 100;
+
+
+                    infoLabel.Text = "Office 2019 Key Installed!";
+                }
+                catch
+                {
+                    infoLabel.Text = "Error installing Office 2019 Key";
+                }
+
+            }
+
+        }
+
         private void label3_Click(object sender, EventArgs e)
         {
 
@@ -169,6 +229,44 @@ namespace RMSpico
         private void button4_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://msguides.com/");
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            if (textBox1.Text == "")
+            {
+                label6.Text = "Please enter a valid file path";
+            }
+            else
+            {
+                label6.Text = "Activating Office 2019...";
+                activateOffice(textBox1.Text);
+            }
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            var fileContent = string.Empty;
+            var filePath = string.Empty;
+
+            using (FolderBrowserDialog openFileDialog = new FolderBrowserDialog())
+            {
+
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    //Get the path of specified file
+                    filePath = openFileDialog.SelectedPath;
+
+
+                }
+            }
+            textBox1.Text = filePath;
         }
     }
 }
