@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Management;
 using System.Threading;
+using Microsoft.VisualBasic;
 
 namespace RMSpico
 {
@@ -70,6 +71,11 @@ namespace RMSpico
             {
                 return WinEnterpriseKey;
             }
+            if (comboBox1.Text == "Custom Key")
+            {
+                String customKey = Interaction.InputBox("Enter Custom Key:","Custom Key","XXXXX-XXXXX-XXXxX-XXXXX-XXXXX" ,500,500);
+                return customKey;
+            }
             return "no matching key";
 
         }
@@ -82,38 +88,46 @@ namespace RMSpico
             }
             else
             {
-                progressBar1.Value = 0;
-                System.Diagnostics.Process process = new System.Diagnostics.Process();
-                System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-                startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-                startInfo.FileName = "cmd.exe";
-                startInfo.Arguments = "/C slmgr /ipk " + key;
-                startInfo.Verb = "runas";
-                process.StartInfo = startInfo;
+                try
+                {
+                    progressBar1.Value = 0;
+                    System.Diagnostics.Process process = new System.Diagnostics.Process();
+                    System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+                    startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                    startInfo.FileName = "cmd.exe";
+                    startInfo.Arguments = "/C slmgr /ipk " + key;
+                    startInfo.Verb = "runas";
+                    process.StartInfo = startInfo;
+
+                    process.Start();
+                    progressBar1.Value = 40;
+
+                    startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                    startInfo.FileName = "cmd.exe";
+                    startInfo.Arguments = "/C slmgr /skms kms8.msguides.com";
+                    startInfo.Verb = "runas";
+                    process.StartInfo = startInfo;
+
+                    process.Start();
+
+                    progressBar1.Value = 75;
+
+                    startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                    startInfo.FileName = "cmd.exe";
+                    startInfo.Arguments = "/C slmgr /ato";
+                    startInfo.Verb = "runas";
+                    process.StartInfo = startInfo;
+
+                    process.Start();
+                    progressBar1.Value = 100;
+
+                    infoLabel.Text = "Windows 10 Key Installed!";
+                }
+                catch
+                {
+                    infoLabel.Text = "Error installing Windows 10 Key";
+                }
                 
-                process.Start();
-                progressBar1.Value = 40;
-
-                startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-                startInfo.FileName = "cmd.exe";
-                startInfo.Arguments = "/C slmgr /skms kms8.msguides.com";
-                startInfo.Verb = "runas";
-                process.StartInfo = startInfo;
-                
-                process.Start();
-
-                progressBar1.Value = 75;
-
-                startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-                startInfo.FileName = "cmd.exe";
-                startInfo.Arguments = "/C slmgr /ato";
-                startInfo.Verb = "runas";
-                process.StartInfo = startInfo;
-                
-                process.Start();
-                progressBar1.Value = 100;
-
-                infoLabel.Text = "Windows 10 Key Installed!";
             }
 
         }

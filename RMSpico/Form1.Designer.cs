@@ -59,7 +59,8 @@
             this.comboBox1.Items.AddRange(new object[] {
             "Windows 10 Pro",
             "Windows 10 Home",
-            "Windows 10 Enterprise"});
+            "Windows 10 Enterprise",
+            "Custom Key"});
             this.comboBox1.Location = new System.Drawing.Point(26, 182);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(321, 21);
