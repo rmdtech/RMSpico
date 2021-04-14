@@ -73,7 +73,7 @@ namespace RMSpico
             }
             if (comboBox1.Text == "Custom Key")
             {
-                String customKey = Interaction.InputBox("Enter Custom Key:","Custom Key","XXXXX-XXXXX-XXXxX-XXXXX-XXXXX" ,500,500);
+                String customKey = Interaction.InputBox("Enter Custom Key:","Custom Key","XXXXX-XXXXX-XXXXX-XXXXX-XXXXX" ,500,500);
                 return customKey;
             }
             return "no matching key";
